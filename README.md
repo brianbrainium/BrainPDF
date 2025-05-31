@@ -1,10 +1,12 @@
-# Nuxt Minimal Starter
+# BrainPDF Offline PWA
 
-Look at the [Nuxt documentation](https://nuxt.com/docs/getting-started/introduction) to learn more.
+BrainPDF is a minimal example of a Progressive Web Application built with Nuxt. After the first visit the site installs a service worker and precaches all of its assets so it can operate fully offline.
+
+This repository contains the generated static output in the `docs/` directory so it can be hosted on GitHub Pages or any static file host. Once a user opens the page online, the service worker caches everything needed and the app works without a network connection.
 
 ## Setup
 
-Make sure to install dependencies:
+Install dependencies with your preferred package manager:
 
 ```bash
 # npm
@@ -20,22 +22,12 @@ yarn install
 bun install
 ```
 
-## Development Server
+## Development
 
-Start the development server on `http://localhost:3000`:
+Run the development server at `http://localhost:3000`:
 
 ```bash
-# npm
 npm run dev
-
-# pnpm
-pnpm dev
-
-# yarn
-yarn dev
-
-# bun
-bun run dev
 ```
 
 ## Production
@@ -43,37 +35,33 @@ bun run dev
 Build the application for production:
 
 ```bash
-# npm
 npm run build
-
-# pnpm
-pnpm build
-
-# yarn
-yarn build
-
-# bun
-bun run build
 ```
 
-Locally preview production build:
+Generate the static site (output in `docs/`):
 
 ```bash
-# npm
-npm run preview
-
-# pnpm
-pnpm preview
-
-# yarn
-yarn preview
-
-# bun
-bun run preview
+npm run generate
 ```
 
-Check out the [deployment documentation](https://nuxt.com/docs/getting-started/deployment) for more information.
+Preview the production build locally:
 
-## GitHub Pages
+```bash
+npm run preview
+```
 
-The static PWA is generated with `npm run generate`. The output is committed in the `docs/` directory so it can be served via GitHub Pages. Binary assets such as the favicon are omitted.
+## Offline usage
+
+1. Deploy the contents of the `docs/` folder to any static web host.
+2. Visit the site once while online. The service worker will install and cache all assets.
+3. Subsequent visits can be completely offline. The app will load from the cache and continue to function.
+
+## Testing
+
+Run the test suite with:
+
+```bash
+npm test
+```
+
+The tests verify that the generated output contains a service worker with Workbox caching rules so the application can run offline after the first visit.
