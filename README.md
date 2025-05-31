@@ -73,3 +73,7 @@ bun run preview
 ```
 
 Check out the [deployment documentation](https://nuxt.com/docs/getting-started/deployment) for more information.
+
+## GitHub Pages
+
+The static PWA is generated with `npm run generate`. The output is committed in the `docs/` directory so it can be served via GitHub Pages. Binary assets such as the favicon are omitted.
