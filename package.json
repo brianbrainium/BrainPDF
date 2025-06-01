@@ -11,7 +11,7 @@
     "generate": "nuxt generate",
     "preview": "nuxt preview",
     "postinstall": "nuxt prepare",
-    "test": "node --test"
+    "test": "node --loader ./ts-loader.mjs --test"
   },
   "dependencies": {
     "@nuxt/eslint": "1.4.1",
