@@ -6,34 +6,38 @@ import { PDFDocument } from 'pdf-lib'
 
 import { splitPdfEqual } from '../utils/split.js'
 
+// ensure each split piece is a valid PDF and page counts add up
+
 test('split pdf into equal parts', async () => {
-  const pdfPath = path.join('samplePDFs', 'sample.pdf');
-  const buffer = fs.readFileSync(pdfPath);
-  const data = new Uint8Array(buffer);
+  const pdfPath = path.join('samplePDFs', 'sample.pdf')
+  const buffer = fs.readFileSync(pdfPath)
+  const data = new Uint8Array(buffer)
 
-  const parts = splitPdfEqual(data, 3);
-  assert.strictEqual(parts.length, 3);
+  const original = await PDFDocument.load(data)
+  const originalPages = original.getPageCount()
 
-  const totalSize = parts.reduce((sum, p) => sum + p.length, 0);
-  assert.strictEqual(totalSize, data.length);
+  const parts = await splitPdfEqual(data, 3)
+  assert.strictEqual(parts.length, 3)
 
-  const sizes = parts.map(p => p.length);
-  const maxSize = Math.max(...sizes);
-  const minSize = Math.min(...sizes);
-  assert.ok(maxSize - minSize <= 1, 'parts sizes vary too much');
+  let pageSum = 0
+  for (const part of parts) {
+    const doc = await PDFDocument.load(part)
+    const count = doc.getPageCount()
+    assert.ok(count > 0, 'part has no pages')
+    pageSum += count
+  }
+  assert.strictEqual(pageSum, originalPages, 'page counts do not add up')
+})
 
-  const reconstructed = Buffer.concat(parts.map(p => Buffer.from(p)));
-  assert.ok(reconstructed.equals(Buffer.from(data)), 'reconstructed pdf mismatch');
+test('no empty chunks when requesting many parts', async () => {
+  const pdfPath = path.join('samplePDFs', 'sample.pdf')
+  const buffer = fs.readFileSync(pdfPath)
+  const data = new Uint8Array(buffer)
 
-  const pdfDoc = await PDFDocument.load(reconstructed)
-  assert.ok(pdfDoc.getPageCount() > 0, 'loaded pdf has no pages')
-});
+  const original = await PDFDocument.load(data)
+  const pages = original.getPageCount()
 
-test('no empty chunks when requesting many parts', () => {
-  const pdfPath = path.join('samplePDFs', 'sample.pdf');
-  const buffer = fs.readFileSync(pdfPath);
-  const data = new Uint8Array(buffer);
-
-  const parts = splitPdfEqual(data, data.length + 5);
-  assert.ok(parts.every(p => p.length > 0), 'contains empty parts');
-});
+  const parts = await splitPdfEqual(data, pages + 5)
+  assert.strictEqual(parts.length, pages)
+  assert.ok(parts.every(p => p.length > 0), 'contains empty parts')
+})

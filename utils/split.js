@@ -1,12 +1,25 @@
-export function splitPdfEqual(data, parts) {
-  const result = []
+import { PDFDocument } from 'pdf-lib'
+
+/**
+ * Split a PDF into roughly equal parts by page count.
+ * Each returned Uint8Array represents a valid PDF document.
+ */
+export async function splitPdfEqual(data, parts) {
+  const pdfDoc = await PDFDocument.load(data)
+  const totalPages = pdfDoc.getPageCount()
   const n = Math.max(1, Math.floor(parts))
-  const partSize = Math.ceil(data.length / n)
-  for (let i = 0; i < n; i++) {
-    const start = i * partSize
-    if (start >= data.length) break
-    const end = Math.min(start + partSize, data.length)
-    result.push(data.slice(start, end))
+  const pagesPerPart = Math.ceil(totalPages / n)
+
+  const result = []
+  for (let start = 0; start < totalPages; start += pagesPerPart) {
+    const end = Math.min(start + pagesPerPart, totalPages)
+    const newDoc = await PDFDocument.create()
+    const indices = []
+    for (let i = start; i < end; i++) indices.push(i)
+    const pages = await newDoc.copyPages(pdfDoc, indices)
+    pages.forEach(p => newDoc.addPage(p))
+    const bytes = await newDoc.save()
+    result.push(new Uint8Array(bytes))
   }
   return result
 }

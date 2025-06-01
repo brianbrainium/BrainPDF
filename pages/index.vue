@@ -136,13 +136,13 @@ function parseFile() {
   reader.readAsArrayBuffer(selectedFile.value)
 }
 
-function splitFile() {
+async function splitFile() {
   if (!fileData.value) return
   const data = fileData.value
   sections.value = []
   selectedSections.value = []
   if (splitMode.value === 'equal') {
-    const parts = splitPdfEqual(data, equalParts.value)
+    const parts = await splitPdfEqual(data, equalParts.value)
     parts.forEach((p, i) => {
       sections.value.push({ name: `section-${i + 1}.pdf`, data: p })
     })
