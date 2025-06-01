@@ -24,14 +24,49 @@ export async function splitPdfEqual(data, parts) {
   return result
 }
 
-export function splitPdfBySize(data, sizeBytes) {
+export async function splitPdfBySize(data, sizeBytes) {
+  const limit = Math.max(1, Math.floor(sizeBytes))
+  const pdfDoc = await PDFDocument.load(data)
+  const totalPages = pdfDoc.getPageCount()
   const result = []
-  const chunk = Math.max(1, Math.floor(sizeBytes))
-  let offset = 0
-  while (offset < data.length) {
-    const end = Math.min(offset + chunk, data.length)
-    result.push(data.slice(offset, end))
-    offset += chunk
+
+  let index = 0
+  while (index < totalPages) {
+    const newDoc = await PDFDocument.create()
+    let bytes = null
+    let pagesAdded = 0
+
+    while (index < totalPages) {
+      const [page] = await newDoc.copyPages(pdfDoc, [index])
+      newDoc.addPage(page)
+      pagesAdded++
+      bytes = await newDoc.save()
+
+      if (bytes.byteLength > limit) {
+        if (pagesAdded > 1) {
+          newDoc.removePage(newDoc.getPageCount() - 1)
+          bytes = await newDoc.save()
+          result.push(new Uint8Array(bytes))
+          pagesAdded--
+        } else {
+          result.push(new Uint8Array(bytes))
+          index++
+        }
+        break
+      }
+
+      index++
+      if (index >= totalPages) {
+        result.push(new Uint8Array(bytes))
+        break
+      }
+    }
+
+    if (pagesAdded === 0) {
+      // ensure progress to avoid infinite loop when a single page exceeds limit
+      index++
+    }
   }
+
   return result
 }
