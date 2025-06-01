@@ -5,6 +5,7 @@ BrainPDF is a minimal example of a Progressive Web Application built with Nuxt. 
 This repository contains the generated static output in the `docs/` directory so it can be hosted on GitHub Pages or any static file host. Once a user opens the page online, the service worker caches everything needed and the app works without a network connection.
 
 For steps to verify offline functionality see [OFFLINE_USAGE.md](OFFLINE_USAGE.md).
+For an architecture overview and diagram see [PROJECT_OVERVIEW.md](PROJECT_OVERVIEW.md).
 
 ## Setup
 
