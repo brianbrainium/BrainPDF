@@ -11,6 +11,7 @@
     "generate": "nuxt generate",
     "preview": "nuxt preview",
     "postinstall": "nuxt prepare",
+    "lint": "eslint . --ext .ts,.js,.vue",
     "test": "node --loader ./ts-loader.mjs --test"
   },
   "dependencies": {

@@ -25,6 +25,12 @@ Run the development server at `http://localhost:3000`:
 pnpm run dev
 ```
 
+Run the linter:
+
+```bash
+pnpm run lint
+```
+
 ## Production
 
 Build the application for production:
