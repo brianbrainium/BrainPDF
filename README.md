@@ -45,6 +45,8 @@ pnpm run preview
 1. Deploy the contents of the `docs/` folder to any static web host.
 2. Visit the site once while online. The service worker will install and cache all assets.
 3. Subsequent visits can be completely offline. The app will load from the cache and continue to function.
+For more details see [OFFLINE_USAGE.md](OFFLINE_USAGE.md).
+
 
 ## Testing
 
