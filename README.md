@@ -9,6 +9,8 @@ For an architecture overview and diagram see [PROJECT_OVERVIEW.md](PROJECT_OVERV
 
 ## Setup
 
+Requires Node.js 18+ (see the `engines` field in [package.json](package.json)).
+
 Install dependencies using pnpm:
 
 ```bash

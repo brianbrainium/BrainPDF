@@ -5,7 +5,7 @@ import os from 'node:os'
 import path from 'node:path'
 import { PDFDocument } from 'pdf-lib'
 
-import { splitPdfEqual, splitPdfBySize } from '../utils/split.js'
+import { splitPdfEqual, splitPdfBySize } from '../utils/split.ts'
 
 // ensure each split piece is a valid PDF and page counts add up
 
