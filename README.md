@@ -4,6 +4,8 @@ BrainPDF is a minimal example of a Progressive Web Application built with Nuxt. 
 
 This repository contains the generated static output in the `docs/` directory so it can be hosted on GitHub Pages or any static file host. Once a user opens the page online, the service worker caches everything needed and the app works without a network connection.
 
+For steps to verify offline functionality see [OFFLINE_USAGE.md](OFFLINE_USAGE.md).
+
 ## Setup
 
 Install dependencies using pnpm:
@@ -46,6 +48,10 @@ pnpm run preview
 2. Visit the site once while online. The service worker will install and cache all assets.
 3. Subsequent visits can be completely offline. The app will load from the cache and continue to function.
 For more details see [OFFLINE_USAGE.md](OFFLINE_USAGE.md).
+
+## Custom service worker
+
+To adjust caching rules or add new runtime strategies edit the `pwa` section in `nuxt.config.ts`. See [SERVICE_WORKER.md](SERVICE_WORKER.md) for full instructions.
 
 
 ## Testing
