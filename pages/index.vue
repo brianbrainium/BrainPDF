@@ -66,7 +66,7 @@
 import { ref, computed, onMounted, onBeforeUnmount } from 'vue'
 import { getAvailableMemoryMB, computeMaxPdfSizeMB } from '~/utils/memory'
 import { createZip } from '~/utils/zip'
-import { splitPdfEqual, splitPdfBySize } from '~/utils/split'
+import { splitPdfEqual, splitPdfBySize } from '~/utils/split.ts'
 
 const isOnline = ref(true)
 const fileInput = ref<HTMLInputElement | null>(null)
