@@ -3,6 +3,11 @@
     <h1 class="text-2xl font-bold mb-4">BrainPDF Demo</h1>
     <p class="mb-2">Local-first PDF toolkit running entirely in the browser.</p>
     <p>Status: <span :class="statusClass">{{ onlineStatus }}</span></p>
+    <button
+      v-if="!isOnline"
+      class="mt-2 px-4 py-1 bg-yellow-500 text-white rounded"
+      @click="resetPwa"
+    >Refresh</button>
     <p class="mt-2">Available memory: {{ availableMemoryMB }} MB</p>
     <p>Max PDF size: {{ maxPdfSizeMB }} MB</p>
 
@@ -174,6 +179,16 @@ function downloadBlob(blob: Blob, name: string) {
   a.download = name
   a.click()
   URL.revokeObjectURL(url)
+}
+
+async function resetPwa() {
+  const regs = await navigator.serviceWorker.getRegistrations()
+  await Promise.all(regs.map(r => r.unregister()))
+  if ('caches' in window) {
+    const keys = await caches.keys()
+    await Promise.all(keys.map(k => caches.delete(k)))
+  }
+  window.location.reload()
 }
 
 const onlineStatus = computed(() => (isOnline.value ? 'Online' : 'Offline'))
