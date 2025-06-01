@@ -17,7 +17,8 @@ test('README production steps work', async () => {
 
   // Preview command is available
   const result = spawnSync('pnpm', ['run', 'preview', '--', '--help'], {
-    stdio: 'inherit'
+    stdio: 'inherit',
+    shell: true
   })
   assert.strictEqual(result.status, 0, 'preview command failed')
 });
