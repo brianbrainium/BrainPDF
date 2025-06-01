@@ -15,7 +15,7 @@ function splitEqual(data, parts) {
 }
 
 test('split pdf into equal parts', () => {
-  const pdfPath = path.join('samplePDFs', 'Dynamics 365 Business Central - Connectors _ Microsoft Learn.pdf');
+  const pdfPath = path.join('samplePDFs', 'sample.pdf');
   const buffer = fs.readFileSync(pdfPath);
   const data = new Uint8Array(buffer);
 
