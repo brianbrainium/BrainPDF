@@ -12,14 +12,15 @@
     <p>Max PDF size: {{ maxPdfSizeMB }} MB</p>
 
     <div
-      class="border-dashed border-2 p-4 mt-4 cursor-pointer"
+      class="mt-4 cursor-pointer"
+      style="border: 2px dashed #ccc; padding: 1rem;"
       @click="openFilePicker"
       @drop.prevent="onDrop"
       @dragover.prevent
     >
       <p v-if="!selectedFile">Drop PDF here or click to select</p>
       <p v-else>{{ selectedFile.name }} ({{ (selectedFile.size/1024/1024).toFixed(1) }} MB)</p>
-      <input ref="fileInput" type="file" accept="application/pdf" class="hidden" @change="handleFile" />
+      <input ref="fileInput" type="file" accept="application/pdf" style="display:none" @change="handleFile" />
     </div>
     <div v-if="fileTooLarge" class="text-red-600 mt-2">File exceeds maximum allowed size.</div>
 
