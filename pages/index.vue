@@ -66,6 +66,7 @@
 import { ref, computed, onMounted, onBeforeUnmount } from 'vue'
 import { getAvailableMemoryMB, computeMaxPdfSizeMB } from '~/utils/memory'
 import { createZip } from '~/utils/zip'
+import { splitPdfEqual, splitPdfBySize } from '~/utils/split'
 
 const isOnline = ref(true)
 const fileInput = ref<HTMLInputElement | null>(null)
@@ -141,24 +142,16 @@ function splitFile() {
   sections.value = []
   selectedSections.value = []
   if (splitMode.value === 'equal') {
-    const n = Math.max(1, equalParts.value)
-    const partSize = Math.ceil(data.length / n)
-    for (let i = 0; i < n; i++) {
-      const start = i * partSize
-      const end = Math.min(start + partSize, data.length)
-      const slice = data.slice(start, end)
-      sections.value.push({ name: `section-${i + 1}.pdf`, data: slice })
-    }
+    const parts = splitPdfEqual(data, equalParts.value)
+    parts.forEach((p, i) => {
+      sections.value.push({ name: `section-${i + 1}.pdf`, data: p })
+    })
   } else {
     const sizeBytes = Math.max(1, chunkSize.value) * 1024 * 1024
-    let offset = 0
-    let idx = 1
-    while (offset < data.length) {
-      const slice = data.slice(offset, offset + sizeBytes)
-      sections.value.push({ name: `section-${idx}.pdf`, data: slice })
-      offset += sizeBytes
-      idx++
-    }
+    const parts = splitPdfBySize(data, sizeBytes)
+    parts.forEach((p, i) => {
+      sections.value.push({ name: `section-${i + 1}.pdf`, data: p })
+    })
   }
 }
 
