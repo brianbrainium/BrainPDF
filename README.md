@@ -6,20 +6,10 @@ This repository contains the generated static output in the `docs/` directory so
 
 ## Setup
 
-Install dependencies with your preferred package manager:
+Install dependencies using pnpm:
 
 ```bash
-# npm
-npm install
-
-# pnpm
 pnpm install
-
-# yarn
-yarn install
-
-# bun
-bun install
 ```
 
 ## Development
@@ -27,7 +17,7 @@ bun install
 Run the development server at `http://localhost:3000`:
 
 ```bash
-npm run dev
+pnpm run dev
 ```
 
 ## Production
@@ -35,19 +25,19 @@ npm run dev
 Build the application for production:
 
 ```bash
-npm run build
+pnpm run build
 ```
 
 Generate the static site (output in `docs/`):
 
 ```bash
-npm run generate
+pnpm run generate
 ```
 
 Preview the production build locally:
 
 ```bash
-npm run preview
+pnpm run preview
 ```
 
 ## Offline usage
@@ -61,7 +51,7 @@ npm run preview
 Run the test suite with:
 
 ```bash
-npm test
+pnpm test
 ```
 
 The tests verify that the generated output contains a service worker with Workbox caching rules so the application can run offline after the first visit.

@@ -8,15 +8,15 @@ const GENERATE_DIR = 'docs'
 
 test('README production steps work', async () => {
   // Build the application
-  execSync('npm run build', { stdio: 'inherit' });
+  execSync('pnpm run build', { stdio: 'inherit' });
   assert.ok(fs.existsSync(BUILD_DIR), 'build output missing');
 
   // Generate the static site
-  execSync('npm run generate', { stdio: 'inherit' });
+  execSync('pnpm run generate', { stdio: 'inherit' });
   assert.ok(fs.existsSync(`${GENERATE_DIR}/index.html`), 'generated index.html missing');
 
   // Preview command is available
-  const result = spawnSync('npm', ['run', 'preview', '--', '--help'], {
+  const result = spawnSync('pnpm', ['run', 'preview', '--', '--help'], {
     stdio: 'inherit'
   })
   assert.strictEqual(result.status, 0, 'preview command failed')
