@@ -148,7 +148,7 @@ async function splitFile() {
     })
   } else {
     const sizeBytes = Math.max(1, chunkSize.value) * 1024 * 1024
-    const parts = splitPdfBySize(data, sizeBytes)
+    const parts = await splitPdfBySize(data, sizeBytes)
     parts.forEach((p, i) => {
       sections.value.push({ name: `section-${i + 1}.pdf`, data: p })
     })
