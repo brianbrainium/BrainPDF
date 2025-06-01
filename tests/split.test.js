@@ -2,10 +2,11 @@ import test from 'node:test'
 import assert from 'node:assert'
 import fs from 'node:fs'
 import path from 'node:path'
+import { PDFDocument } from 'pdf-lib'
 
 import { splitPdfEqual } from '../utils/split.js'
 
-test('split pdf into equal parts', () => {
+test('split pdf into equal parts', async () => {
   const pdfPath = path.join('samplePDFs', 'sample.pdf');
   const buffer = fs.readFileSync(pdfPath);
   const data = new Uint8Array(buffer);
@@ -23,6 +24,9 @@ test('split pdf into equal parts', () => {
 
   const reconstructed = Buffer.concat(parts.map(p => Buffer.from(p)));
   assert.ok(reconstructed.equals(Buffer.from(data)), 'reconstructed pdf mismatch');
+
+  const pdfDoc = await PDFDocument.load(reconstructed)
+  assert.ok(pdfDoc.getPageCount() > 0, 'loaded pdf has no pages')
 });
 
 test('no empty chunks when requesting many parts', () => {
