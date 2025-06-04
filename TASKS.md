@@ -1,4 +1,4 @@
-- [ ] Specify a recommended Node.js version in `package.json` or documentation.
-- [ ] Document how to customize the service worker and caching rules.
-- [ ] Add a link to `OFFLINE_USAGE.md` from `README.md` for clearer guidance.
-- [ ] Ensure `nuxt.config.ts` has a trailing newline for consistency.
+- [x] Specify a recommended Node.js version in `package.json` or documentation.
+- [x] Document how to customize the service worker and caching rules.
+- [x] Add a link to `OFFLINE_USAGE.md` from `README.md` for clearer guidance.
+- [x] Ensure `nuxt.config.ts` has a trailing newline for consistency.
